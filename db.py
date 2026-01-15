@@ -15,16 +15,33 @@ DB_CONFIG = {
 }
 
 # ----------------- CONNECTION -----------------
+# def get_db_connection():
+#     try:
+#         return psycopg2.connect(
+#             host=DB_CONFIG["host"],
+#             port=DB_CONFIG["port"],
+#             database=DB_CONFIG["database"],
+#             user=DB_CONFIG["user"],
+#             password=DB_CONFIG["password"],
+#             connect_timeout=DB_CONFIG["connect_timeout"]
+#         )
+    
+# ----------------- CONNECTION -----------------for render
+import psycopg2
+import os
+
 def get_db_connection():
     try:
         return psycopg2.connect(
-            host=DB_CONFIG["host"],
-            port=DB_CONFIG["port"],
-            database=DB_CONFIG["database"],
-            user=DB_CONFIG["user"],
-            password=DB_CONFIG["password"],
-            connect_timeout=DB_CONFIG["connect_timeout"]
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
+            database=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASS"),
+            connect_timeout=5
         )
+
+
     except Exception as e:
         logger.error("PostgreSQL connection failed", exc_info=True)
         raise
